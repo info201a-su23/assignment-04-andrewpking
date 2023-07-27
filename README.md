@@ -1,4 +1,5 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/A21hL4nA)
+
 # Assignment 3: Incarceration
 
 Link to your final GitHub pages site here: https://info-201a-sp22.github.io/a3-starter/index.html (change the link to for your GitHub pages site)
@@ -7,11 +8,12 @@ America is the country with the greatest number of people incarcerated in the wo
 
 In this assignment, you will use your data analysis and visualization skills to expose patterns of inequality using incarceration data collected by the [Vera Institute](https://github.com/vera-institute/incarceration-trends). You will create an R Markdown file and share it as a small website via GitHub pages.
 
-This assignment is more open-ended than previous ones. You will be tasked with understanding the data itself, choosing the variables you want to analyze, and deciding the optimal way to write your code. 
+This assignment is more open-ended than previous ones. You will be tasked with understanding the data itself, choosing the variables you want to analyze, and deciding the optimal way to write your code.
 
 # Data
 
 The data for this assignment comes from the [Vera Institute](https://github.com/vera-institute/incarceration-trends). We have split the full data into a number of smaller, separate files to make it easier to work with (these are the raw CSV files so you can right-click to copy and paste them):
+
 - [Dataset about prison population per county/state](https://github.com/melaniewalsh/Neat-Datasets/blob/main/us-prison-pop.csv?raw=true)
 - [Dataset about jail population per county/state](https://github.com/melaniewalsh/Neat-Datasets/blob/main/us-jail-pop.csv?raw=true)
 - [Dataset about prison/jail population per 100,000 people (rate) per county/state](https://github.com/melaniewalsh/Neat-Datasets/blob/main/us-prison-jail-rates.csv?raw=true)
@@ -21,6 +23,7 @@ The data for this assignment comes from the [Vera Institute](https://github.com/
 You can work with any or all of these datasets for your analysis.
 
 A few more notes:
+
 - Even though this data is smaller, it may still take about a minute to load because it's large. Feel free to save a copy of the data (or a subset of it) in your directory
 - Follow this [link to download the "Codebook"](https://github.com/vera-institute/incarceration-trends/blob/master/incarceration_trends-Codebook.pdf) that explains the meaning of each variable. You'll need to understand what each variable represents, so read carefully!
 - Beware of missing values. When choosing what to visualize, you will want to focus on a particular location and/or year that has sufficient data (note, this varies across the variables)
