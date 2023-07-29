@@ -63,11 +63,17 @@ prison_jail_rate_1990_WA_col_names <- colnames(prison_jail_rate_1990_WA)
 # - Years span 1990-2018
 
 # Questions:
-# 1: Which county in the USA has the highest prison population, per year since 
-# 1970, what is the population?
+# 1: Which county in the USA has the highest prison population, 
+# per year since 1970, what is the population?
+prison_pop_highest_county <- prison_pop %>% 
+  filter(total_pop == max(total_pop), .by = year) %>%
+  reframe(year, state, county_name, total_pop)
 
-# 2: Which county in the USA has the highest jail population, per year since 
-# 1970, what is the population?
+# 2: Which county in the USA has the highest jail population, 
+# per year since 1970, what is the population?
+jail_pop_highest_county <- jail_pop %>% 
+  filter(total_pop == max(total_pop), .by = year) %>%
+  reframe(year, state, county_name, total_pop)
 
 # 3: Which county in the USA has the highest prison rate, per year since 1990,
 # what is the rate?
