@@ -64,39 +64,43 @@ prison_jail_rate_1990_WA_col_names <- colnames(prison_jail_rate_1990_WA)
 
 # Questions:
 # 1: Which county in the USA has the highest prison population, per year since 
-# 1970?
+# 1970, what is the population?
 
 # 2: Which county in the USA has the highest jail population, per year since 
-# 1970?
+# 1970, what is the population?
 
-# 3: Which county in the USA has the highest prison rate, per year since 1990?
+# 3: Which county in the USA has the highest prison rate, per year since 1990,
+# what is the rate?
 
-# 4: Which county in the USA has the highest jail rate, per year since 1990?
+# 4: Which county in the USA has the highest jail rate, per year since 1990,
+# what is the rate?
 
-# 5: Which county has seen its prison rate grow the most since 1990?
+# 5: Which county has seen its prison rate grow the most since 1990, what is 
+# the rate?
 
-# 6: Which county has seen its jail rate grow the most since 1990?
+# 6: Which county has seen its jail rate grow the most since 1990, what is the
+# rate?
 
 # 7: Which county has the largest proportion Black and Indigenous people in 
-# prison for each year since 1990?
+# prison for each year since 1990, what is the proportion?
 
 # 8: Which county has the largest proportion Black and Indigenous people in 
-# jail for each year since 1990?
+# jail for each year since 1990, what is the proportion?
 
 # 9: Which county has the largest proportion white people in prison for each 
-# year since 1990?
+# year since 1990, what is the proportion?
 
 # 10: Which county has the largest proportion white people in jail for each 
-# year since 1990?
+# year since 1990, what is the proportion?
 
-# 11: Which county in each state has the largest proportion of prisoners for 
-# each year since 1990?
+# 11: Which county in each state has the largest rate of prisoners for 
+# each year since 1990, what is the rate?
 
-# 12: Which county in each state has the largest proportion of people in jail 
-# for each year since 1990?
+# 12: Which county in each state has the largest rate of people in jail 
+# for each year since 1990, what is the rate?
 
 # 13: Which counties have the most missing demographic data for their prisons 
-# since 1990?
+# since 1990, how many values are missing?
 
 # 14: Which counties have the most missing demographic data for their jails 
-# since 1990?
+# since 1990, how many values are missing?
