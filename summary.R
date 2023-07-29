@@ -99,7 +99,27 @@ jail_rate_highest_county <- prison_jail_rate_1990 %>%
   select(-c(native_prison_pop_rate, white_prison_pop_rate))
 
 # 5: Which county has seen its prison rate grow the most since 1990, what is 
-# the rate?
+# the rate? (cutoff at 2016 for more reliable data)
+prison_rate_growth_county <- prison_jail_rate_1990 %>%
+  mutate(total_prison_pop_rate = replace_na(total_prison_pop_rate, 0)) %>%
+  mutate(total_pop = replace_na(total_pop, 0)) %>%
+  filter(year == 1990 | year == 2016) %>%
+  arrange(county_name, state, year) %>%
+  mutate(prison_rate_growth = total_prison_pop_rate - lag(total_prison_pop_rate, n = 1)) %>%
+  mutate(prison_pop_growth = total_pop - lag(total_pop, n = 1)) %>% 
+  filter(year == 2016) %>% 
+  arrange(desc(prison_rate_growth)) %>%
+  select(-c(total_jail_pop_rate, female_jail_pop_rate, male_jail_pop_rate)) %>%
+  select(-c(aapi_jail_pop_rate, black_jail_pop_rate, latinx_jail_pop_rate)) %>%
+  select(-c(native_jail_pop_rate, white_jail_pop_rate))
+
+# 5.1: What is the net growth of prison incarceration in each state by county and
+# incarceration rate.
+prison_rate_growth_state <- prison_rate_growth_county %>%
+  group_by(state) %>%
+  summarize(counties_growing = sum(prison_rate_growth > 0) - sum(prison_rate_growth < 0),
+            net_growth = sum(prison_rate_growth)
+            )
 
 # 6: Which county has seen its jail rate grow the most since 1990, what is the
 # rate?
