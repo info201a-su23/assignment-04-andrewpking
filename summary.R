@@ -90,3 +90,7 @@ prison_jail_rate_1990_WA_col_names <- colnames(prison_jail_rate_1990_WA)
 
 # 10: Which county in each state has the largest proportion of people in jail 
 # for each year?
+
+# 11: Which counties have the most missing demographic data for their prisons?
+
+# 12: Which counties have the most missing demographic data for their jails?
