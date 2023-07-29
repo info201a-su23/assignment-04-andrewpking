@@ -17,7 +17,7 @@ prison_jail_rate_1990_WA <- read_csv(
   "https://raw.githubusercontent.com/melaniewalsh/Neat-Datasets/main/us-prison-jail-rates-1990-WA.csv"
 )
 
-# Get total columns for each dataset
+# Get total columns for each data-set
 prison_pop_col <- ncol(prison_pop)
 jail_pop_col <- ncol(jail_pop)
 prison_jail_rate_col <- ncol(prison_jail_rate)
@@ -65,21 +65,38 @@ prison_jail_rate_1990_WA_col_names <- colnames(prison_jail_rate_1990_WA)
 # Questions:
 # 1: Which county in the USA has the highest prison population, 
 # per year since 1970, what is the population?
-prison_pop_highest_county <- prison_pop %>% 
+prison_pop_highest_county <- prison_pop %>%
   filter(total_pop == max(total_pop), .by = year) %>%
   reframe(year, state, county_name, total_pop)
 
 # 2: Which county in the USA has the highest jail population, 
 # per year since 1970, what is the population?
-jail_pop_highest_county <- jail_pop %>% 
+jail_pop_highest_county <- jail_pop %>%
   filter(total_pop == max(total_pop), .by = year) %>%
   reframe(year, state, county_name, total_pop)
 
 # 3: Which county in the USA has the highest prison rate, per year since 1990,
 # what is the rate?
+prison_rate_highest_county <- prison_jail_rate_1990 %>%
+  mutate(total_prison_pop_rate = replace_na(total_prison_pop_rate, 0)) %>%
+  group_by(year) %>%
+  filter(total_prison_pop_rate == max(total_prison_pop_rate)) %>%
+  filter(total_prison_pop_rate != 0) %>% 
+  select(-c(total_jail_pop_rate, female_jail_pop_rate, male_jail_pop_rate)) %>%
+  select(-c(aapi_jail_pop_rate, black_jail_pop_rate, latinx_jail_pop_rate)) %>%
+  select(-c(native_jail_pop_rate, white_jail_pop_rate))
 
 # 4: Which county in the USA has the highest jail rate, per year since 1990,
 # what is the rate?
+jail_rate_highest_county <- prison_jail_rate_1990 %>%
+  mutate(total_jail_pop_rate = replace_na(total_jail_pop_rate, 0)) %>%
+  group_by(year) %>%
+  filter(total_jail_pop_rate == max(total_jail_pop_rate)) %>%
+  filter(total_jail_pop_rate != 0) %>%
+  select(-c(total_prison_pop_rate, female_prison_pop_rate)) %>%
+  select(-c(male_prison_pop_rate, aapi_prison_pop_rate)) %>%
+  select(-c(black_prison_pop_rate, latinx_prison_pop_rate)) %>%
+  select(-c(native_prison_pop_rate, white_prison_pop_rate))
 
 # 5: Which county has seen its prison rate grow the most since 1990, what is 
 # the rate?
