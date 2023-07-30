@@ -67,6 +67,17 @@ prison_jail_rate_1990 <- prison_jail_rate_1990 %>%
 # - Some missing demographic data, but could be cleaned
 # - Years span 1990-2018
 
+# Data cleaning:
+# 1: Control for NA values in total populations by averaging yr before and after
+
+# 2: Control for NA values in bipoc populations by averaging yr before and after
+
+# 3: Control for NA values in white populations by averaging yr before and after
+
+# 4: Control for NA values in male populations by averaging yr before and after
+
+# 5: Control for NA values in fem populations by averaging yr before and after
+
 # Questions:
 # 1: Which county in the USA has the highest prison population, 
 # per year since 1970, what is the population?
@@ -198,12 +209,80 @@ jail_rate_white_county <- prison_jail_rate_1990 %>%
 
 # 11: Which county in each state has the largest rate of prisoners for 
 # each year since 1990, what is the rate?
+prison_rate_state_county <- prison_jail_rate_1990 %>%
+  mutate(total_prison_pop_rate = replace_na(total_prison_pop_rate, 0)) %>%
+  group_by(year, state) %>%
+  filter(total_prison_pop_rate == max(total_prison_pop_rate)) %>%
+  filter(total_prison_pop_rate != 0) %>% 
+  select(-c(total_jail_pop_rate, female_jail_pop_rate, male_jail_pop_rate)) %>%
+  select(-c(aapi_jail_pop_rate, black_jail_pop_rate, latinx_jail_pop_rate)) %>%
+  select(-c(native_jail_pop_rate, white_jail_pop_rate)) %>%
+  arrange(state, year)
 
 # 12: Which county in each state has the largest rate of people in jail 
 # for each year since 1990, what is the rate?
+jail_rate_state_county <- prison_jail_rate_1990 %>%
+  mutate(total_jail_pop_rate = replace_na(total_jail_pop_rate, 0)) %>%
+  group_by(year, state) %>%
+  filter(total_jail_pop_rate == max(total_jail_pop_rate)) %>%
+  filter(total_jail_pop_rate != 0) %>%
+  select(-c(total_prison_pop_rate, female_prison_pop_rate)) %>%
+  select(-c(male_prison_pop_rate, aapi_prison_pop_rate)) %>%
+  select(-c(black_prison_pop_rate, latinx_prison_pop_rate)) %>%
+  select(-c(native_prison_pop_rate, white_prison_pop_rate)) %>%
+  arrange(state, year)
 
-# 13: Which counties have the most missing demographic data for their prisons 
-# since 1990, how many values are missing?
+# 13: How many mens only, womens only, and coed prisons are there for each year?
+# Additionally how many men and women are in prison?
+prison_gender <- prison_jail_rate_1990 %>%
+  mutate(male_prison_pop_rate = replace_na(male_prison_pop_rate, 0),
+         female_prison_pop_rate = replace_na(female_prison_pop_rate, 0)
+         ) %>%
+  group_by(year) %>%
+  summarise(
+    men_only_prison = sum(
+      male_prison_pop_rate > 0 & female_prison_pop_rate == 0
+      ), 
+    men_in_prison_rate = sum(male_prison_pop_rate),
+    women_only_prison = sum(
+      female_prison_pop_rate > 0 & male_prison_pop_rate == 0
+    ),
+    women_in_prison_rate = sum(female_prison_pop_rate),
+    coed_prisons = sum(
+      male_prison_pop_rate > 0 & female_prison_pop_rate > 0
+      )
+    ) %>%
+  mutate(people_in_prison_rate = women_in_prison_rate + men_in_prison_rate)
 
-# 14: Which counties have the most missing demographic data for their jails 
-# since 1990, how many values are missing?
+# 14: How many mens only, womens only, and coed jails are there for each year?
+# Additionally how many men and women are in jail?
+jail_gender <- prison_jail_rate_1990 %>%
+  mutate(male_jail_pop_rate = replace_na(male_jail_pop_rate, 0),
+         female_jail_pop_rate = replace_na(female_jail_pop_rate, 0)
+  ) %>%
+  group_by(year) %>%
+  summarise(
+    men_only_jail = sum(
+      male_jail_pop_rate > 0 & female_jail_pop_rate == 0
+    ), 
+    men_in_jail_rate = sum(male_jail_pop_rate),
+    women_only_jail = sum(
+      female_jail_pop_rate > 0 & male_jail_pop_rate == 0
+    ),
+    women_in_jail_rate = sum(female_jail_pop_rate),
+    coed_jails = sum(
+      male_jail_pop_rate > 0 & female_jail_pop_rate > 0
+    )
+  ) %>%
+  mutate(people_in_jail_rate = women_in_jail_rate + men_in_jail_rate)
+
+# Observations from data:
+# The largest prisons do not collect data on BIPOC prisoners but do on whites.
+# Incarceration levels are growing in all states except NJ and DC.
+# States with more white people have disproportionately high levels of BIPOC
+# people incarcerated.
+# LA county jails and imprisons more people than any other place in the USA,
+# surpassing New York County in the 1970s.
+# There are more mens only prisons than womens only prisons by county.
+# There are more men jailed or imprisoned than women per year.
+# Rural counties are disproportionately housing prisoners over urban counties.
