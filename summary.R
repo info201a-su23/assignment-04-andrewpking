@@ -316,5 +316,59 @@ jail_gender <- prison_jail_rate_1990 %>%
 # There are more men jailed or imprisoned than women per year.
 # Rural counties are disproportionately housing prisoners over urban counties.
 
-# Questions for numerical values
+# Summary statistics:
+# 1: What is the average proportion of white people vs bipoc people incarcerated
+# in prison in 1970?
+bipoc_avg_prison_1970
+white_avg_prison_1970
 
+# 1.1: What is the average proportion of white people vs bipoc people 
+# incarcerated in prison in 2018?
+bipoc_avg_prison_2018
+white_avg_prison_2018
+
+# 1.2: What is the change in proportion of the population over time as a number?
+bipoc_avg_prison_change
+white_avg_prison_change
+
+# 2: How much has the incarceration rate of men vs women changed in the data?
+# 2.1: What is the average proportion of white people vs bipoc people incarcerated
+# in jail 1970?
+bipoc_avg_jail_1970
+white_avg_jail_1970
+
+# 2.2: What is the average proportion of white people vs bipoc people 
+# incarcerated in jail in 2018?
+bipoc_avg_jail_2018
+white_avg_jail_2018
+
+# 2.3: What is the change in proportion of the population over time as a number?
+bipoc_avg_jail_change
+white_avg_jail_change
+
+# 3: How much has the incarceration rate of men vs women changed in the data?
+# 3.1: What is the average proportion of men vs women incarcerated in 1970?
+women_avg_prison_1970
+men_avg_prison_1970
+women_avg_jail_1970
+men_avg_jail_1970
+
+# 3.2: What is the average proportion of men vs women incarcerated in 2018?
+women_avg_prison_2018
+men_avg_prison_2018
+women_avg_jail_2018
+men_avg_jail_2018
+
+# 3.3 What is the change in proportion of the population over time as a number?
+women_avg_prison_change
+men_avg_prison_change
+women_avg_jail_change
+men_avg_jail_change
+
+# 4: Which location imprisons the most people in the United States in 1970 and 
+# 2018?
+location_most_prison_1970
+location_most_prison_2018
+
+# 5: What is the percentage increase of total incarceration from 1970 to 2018?
+percent_increase_total_incarceration
