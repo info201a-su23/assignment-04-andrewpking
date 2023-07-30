@@ -95,7 +95,8 @@ white_vs_bipoc_highest_prison <- prison_pop_highest_county %>%
           location, 
           total_prison_pop, 
           white_prison_pop, 
-          bipoc_prison_pop)
+          bipoc_prison_pop) %>%
+  mutate(bipoc_prison_pop = replace_na(total_prison_pop - white_prison_pop))
 
 # 2: Which counties in the USA has the highest jail population, 
 # since 1970, what is the population?
@@ -116,7 +117,8 @@ white_vs_bipoc_highest_jail <- jail_pop_highest_county %>%
           location, 
           total_jail_pop, 
           white_jail_pop, 
-          bipoc_jail_pop)
+          bipoc_jail_pop) %>%
+  mutate(bipoc_jail_pop = replace_na(total_jail_pop - white_jail_pop))
 
 # 3: Which county in the USA has the highest prison rate, per year since 1990,
 # what is the rate?
