@@ -317,58 +317,54 @@ jail_gender <- prison_jail_rate_1990 %>%
 # Rural counties are disproportionately housing prisoners over urban counties.
 
 # Summary statistics:
-# 1: What is the average proportion of white people vs bipoc people incarcerated
-# in prison in 1970?
-bipoc_avg_prison_1970
-white_avg_prison_1970
+# 1: What is the percentage increase of total incarceration from 1970 to 2018?
 
-# 1.1: What is the average proportion of white people vs bipoc people 
-# incarcerated in prison in 2018?
-bipoc_avg_prison_2018
-white_avg_prison_2018
+incarceration_1970 <- prison_pop %>%
+  filter(year == 1970)
 
-# 1.2: What is the change in proportion of the population over time as a number?
-bipoc_avg_prison_change
-white_avg_prison_change
+incarceration_2018 <- prison_pop %>%
+  filter(year == 2018)
 
-# 2: How much has the incarceration rate of men vs women changed in the data?
-# 2.1: What is the average proportion of white people vs bipoc people incarcerated
-# in jail 1970?
-bipoc_avg_jail_1970
-white_avg_jail_1970
+# 1.1: What is the total incarceration for 1970 and 2018:
+incarceration_total_1970 <- sum(incarceration_1970$total_pop)
+incarceration_total_2018 <- sum(incarceration_2018$total_pop)
+
+total_increase_ratio <- (incarceration_total_2018 / incarceration_total_1970)
+total_increase_percent <- (total_increase_ratio - 1) * 100
+
+# 2: How has the proportions changed for bipoc vs white people changed since 
+# 1970
+# 1.1: What is the population of white people vs bipoc people incarcerated
+# in 1990?
+incarceration_1990 <- prison_jail_rate_1990 %>%
+  filter(year == 1990)
+
+bipoc_avg_prison_1990 <- mean(incarceration_1990$bipoc_prison_pop_rate, 
+                              na.rm = TRUE)
+white_avg_prison_1990 <- mean(incarceration_1990$white_prison_pop_rate, 
+                              na.rm = TRUE)
+bipoc_avg_jail_1990 <- mean(incarceration_1990$bipoc_jail_pop_rate, 
+                            na.rm = TRUE)
+white_avg_jail_1990 <- mean(incarceration_1990$white_jail_pop_rate, 
+                            na.rm = TRUE)
 
 # 2.2: What is the average proportion of white people vs bipoc people 
-# incarcerated in jail in 2018?
-bipoc_avg_jail_2018
-white_avg_jail_2018
+# incarcerated in 2016?
+incarceration_2016 <- prison_jail_rate_1990 %>%
+  filter(year == 2016)
+
+bipoc_avg_prison_2016 <- mean(incarceration_2016$bipoc_prison_pop_rate, 
+                              na.rm = TRUE)
+
+white_avg_prison_2016 <- mean(incarceration_2016$white_prison_pop_rate, 
+                              na.rm = TRUE)
+bipoc_avg_jail_2016 <- mean(incarceration_2016$bipoc_jail_pop_rate, 
+                            na.rm = TRUE)
+white_avg_jail_2016 <- mean(incarceration_2016$white_jail_pop_rate, 
+                            na.rm = TRUE)
 
 # 2.3: What is the change in proportion of the population over time as a number?
-bipoc_avg_jail_change
-white_avg_jail_change
-
-# 3: How much has the incarceration rate of men vs women changed in the data?
-# 3.1: What is the average proportion of men vs women incarcerated in 1970?
-women_avg_prison_1970
-men_avg_prison_1970
-women_avg_jail_1970
-men_avg_jail_1970
-
-# 3.2: What is the average proportion of men vs women incarcerated in 2018?
-women_avg_prison_2018
-men_avg_prison_2018
-women_avg_jail_2018
-men_avg_jail_2018
-
-# 3.3 What is the change in proportion of the population over time as a number?
-women_avg_prison_change
-men_avg_prison_change
-women_avg_jail_change
-men_avg_jail_change
-
-# 4: Which location imprisons the most people in the United States in 1970 and 
-# 2018?
-location_most_prison_1970
-location_most_prison_2018
-
-# 5: What is the percentage increase of total incarceration from 1970 to 2018?
-percent_increase_total_incarceration
+bipoc_avg_prison_change <- bipoc_avg_prison_2016 - bipoc_avg_prison_1990
+white_avg_prison_change <- white_avg_prison_2016 - white_avg_prison_1990
+bipoc_avg_jail_change <- bipoc_avg_jail_2016 - bipoc_avg_jail_1990
+white_avg_jail_change <- white_avg_jail_2016 - white_avg_jail_1990
