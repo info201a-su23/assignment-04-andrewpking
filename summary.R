@@ -160,11 +160,11 @@ prison_rate_growth_county <- prison_jail_rate_1990 %>%
   select(-c(native_jail_pop_rate, white_jail_pop_rate))
 
 # 3.2: What is the net growth of prison incarceration in each state by county and
-# incarceration rate.
+# incarceration rate. (use for creating a map)
 prison_rate_growth_state <- prison_rate_growth_county %>%
   group_by(state) %>%
-  summarize(counties_growing = sum(prison_rate_growth > 0) - sum(prison_rate_growth < 0),
-            net_growth = sum(prison_rate_growth)
+  summarize(county_prisons_growing = sum(prison_rate_growth > 0) - sum(prison_rate_growth < 0),
+            net_prison_growth = sum(prison_rate_growth)
             )
 
 # 3.3: What is the growth by county of jail rates from 1990 to 2016? 
@@ -185,11 +185,11 @@ jail_rate_growth_county <- prison_jail_rate_1990 %>%
 # incarceration rate (use for creating a map)
 jail_rate_growth_state <- jail_rate_growth_county %>%
   group_by(state) %>%
-  summarize(counties_growing = sum(jail_rate_growth > 0) - sum(jail_rate_growth < 0),
-            net_growth = sum(jail_rate_growth)
+  summarize(county_jails_growing = sum(jail_rate_growth > 0) - sum(jail_rate_growth < 0),
+            net_jail_growth = sum(jail_rate_growth)
   )
 
-# 3.5: Join the tables together to create a scatter-plot:
+# 3.5: Join the tables together to create a scatter-plot and map:
 inc_growth_county_1990_2016 <- left_join(
   prison_rate_growth_county, 
   jail_rate_growth_county) %>% 
@@ -202,6 +202,11 @@ inc_growth_county_1990_2016 <- left_join(
     jail_rate_growth
   ) %>%
   arrange(desc(total_pop_growth))
+
+inc_growth_state_1990_2016 <- left_join(
+  prison_rate_growth_state, 
+  jail_rate_growth_state
+  )
 
 # 4: What is the proportion of black vs white people in prison and jail?
 # 4.1: What is the proportion Black and Indigenous people in prison for each year 
