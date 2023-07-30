@@ -76,7 +76,7 @@ jail_pop <- jail_pop %>%
 # - Years span 1990-2018
 
 # Questions for visualization:
-# 1: Which counties in the USA has the highest prison population, 
+# 1: Which top 10 counties in the USA has the highest prison population, 
 # since 1970, what is the population?
 prison_pop_highest_county <- prison_pop %>%
   mutate(
@@ -89,7 +89,7 @@ prison_pop_highest_county <- prison_pop %>%
   top_n(10, total_prison_pop)
 
 # 1.1: What is the proportion of White vs BIPOC people in the most populated
-# prison counties?
+# prison counties? (Include table in document)
 white_vs_bipoc_highest_prison <- prison_pop_highest_county %>%
   reframe(year, 
           location, 
@@ -98,7 +98,7 @@ white_vs_bipoc_highest_prison <- prison_pop_highest_county %>%
           bipoc_prison_pop) %>%
   mutate(bipoc_prison_pop = replace_na(total_prison_pop - white_prison_pop))
 
-# 2: Which counties in the USA has the highest jail population, 
+# 1.2: Which 10 counties in the USA has the highest jail populations, 
 # since 1970, what is the population?
 jail_pop_highest_county <- jail_pop %>%
   mutate(
@@ -110,8 +110,8 @@ jail_pop_highest_county <- jail_pop %>%
   arrange(desc(total_jail_pop)) %>%
   top_n(10, total_jail_pop)
 
-# 2.1: What is the proportion of White vs BIPOC people in the most populated
-# jail counties?
+# 1.3: What is the proportion of White vs BIPOC people in the most populated
+# jail counties? (Include table in document)
 white_vs_bipoc_highest_jail <- jail_pop_highest_county %>%
   reframe(year, 
           location, 
@@ -120,7 +120,7 @@ white_vs_bipoc_highest_jail <- jail_pop_highest_county %>%
           bipoc_jail_pop) %>%
   mutate(bipoc_jail_pop = replace_na(total_jail_pop - white_jail_pop))
 
-# 3: Which county in the USA has the highest prison rate, per year since 1990,
+# 2: Which county in the USA has the highest prison rate, per year since 1990,
 # what is the rate?
 prison_rate_highest_county <- prison_jail_rate_1990 %>%
   mutate(total_prison_pop_rate = replace_na(total_prison_pop_rate, 0)) %>%
@@ -131,7 +131,7 @@ prison_rate_highest_county <- prison_jail_rate_1990 %>%
   select(-c(aapi_jail_pop_rate, black_jail_pop_rate, latinx_jail_pop_rate)) %>%
   select(-c(native_jail_pop_rate, white_jail_pop_rate))
 
-# 4: Which county in the USA has the highest jail rate, per year since 1990,
+# 2.1: Which county in the USA has the highest jail rate, per year since 1990,
 # what is the rate?
 jail_rate_highest_county <- prison_jail_rate_1990 %>%
   mutate(total_jail_pop_rate = replace_na(total_jail_pop_rate, 0)) %>%
@@ -143,8 +143,10 @@ jail_rate_highest_county <- prison_jail_rate_1990 %>%
   select(-c(black_prison_pop_rate, latinx_prison_pop_rate)) %>%
   select(-c(native_prison_pop_rate, white_prison_pop_rate))
 
-# 5: Which county has seen its prison rate grow the most since 1990, what is 
-# the rate? (cutoff at 2016 for more reliable data)
+# 3: Which county has seen its incarceration rate grow the most since 1990, 
+# what is the rate? (cutoff at 2016 for more reliable data)
+# Is this growth rate related to population growth?
+# 3.1 How much has the prison rate grown for each county between 1990 and 2016?
 prison_rate_growth_county <- prison_jail_rate_1990 %>%
   mutate(total_prison_pop_rate = replace_na(total_prison_pop_rate, 0)) %>%
   mutate(total_pop = replace_na(total_pop, 0)) %>%
@@ -153,12 +155,11 @@ prison_rate_growth_county <- prison_jail_rate_1990 %>%
   mutate(prison_rate_growth = total_prison_pop_rate - lag(total_prison_pop_rate, n = 1)) %>%
   mutate(total_pop_growth = total_pop - lag(total_pop, n = 1)) %>% 
   filter(year == 2016) %>% 
-  arrange(desc(prison_rate_growth)) %>%
   select(-c(total_jail_pop_rate, female_jail_pop_rate, male_jail_pop_rate)) %>%
   select(-c(aapi_jail_pop_rate, black_jail_pop_rate, latinx_jail_pop_rate)) %>%
   select(-c(native_jail_pop_rate, white_jail_pop_rate))
 
-# 5.1: What is the net growth of prison incarceration in each state by county and
+# 3.2: What is the net growth of prison incarceration in each state by county and
 # incarceration rate.
 prison_rate_growth_state <- prison_rate_growth_county %>%
   group_by(state) %>%
@@ -166,8 +167,7 @@ prison_rate_growth_state <- prison_rate_growth_county %>%
             net_growth = sum(prison_rate_growth)
             )
 
-# 6: Which county has seen its jail rate grow the most since 1990, what is 
-# the rate? (cutoff at 2016 for more reliable data)
+# 3.3: What is the growth by county of jail rates from 1990 to 2016? 
 jail_rate_growth_county <- prison_jail_rate_1990 %>%
   mutate(total_jail_pop_rate = replace_na(total_jail_pop_rate, 0)) %>%
   mutate(total_pop = replace_na(total_pop, 0)) %>%
@@ -176,92 +176,68 @@ jail_rate_growth_county <- prison_jail_rate_1990 %>%
   mutate(jail_rate_growth = total_jail_pop_rate - lag(total_jail_pop_rate, n = 1)) %>%
   mutate(total_pop_growth = total_pop - lag(total_pop, n = 1)) %>% 
   filter(year == 2016) %>% 
-  arrange(desc(jail_rate_growth)) %>%
   select(-c(total_prison_pop_rate, female_prison_pop_rate)) %>%
   select(-c(male_prison_pop_rate, aapi_prison_pop_rate)) %>%
   select(-c(black_prison_pop_rate, latinx_prison_pop_rate)) %>%
   select(-c(native_prison_pop_rate, white_prison_pop_rate))
 
-# 6.1: What is the net growth of jail incarceration in each state by county and
-# incarceration rate.
+# 3.4: What is the net growth of jail incarceration in each state by county and
+# incarceration rate (use for creating a map)
 jail_rate_growth_state <- jail_rate_growth_county %>%
   group_by(state) %>%
   summarize(counties_growing = sum(jail_rate_growth > 0) - sum(jail_rate_growth < 0),
             net_growth = sum(jail_rate_growth)
   )
 
-# 7: Which county has the largest proportion Black and Indigenous people in 
-# prison for each year since 1990, what is the proportion?
-prison_rate_bipoc_county <- prison_jail_rate_1990 %>%
+# 3.5: Join the tables together to create a scatter-plot:
+inc_growth_county_1990_2016 <- left_join(
+  prison_rate_growth_county, 
+  jail_rate_growth_county) %>% 
+  select(
+    year, 
+    county_name,
+    state,
+    total_pop_growth,
+    prison_rate_growth,
+    jail_rate_growth
+  ) %>%
+  arrange(desc(total_pop_growth))
+
+# 4: What is the proportion of black vs white people in prison and jail?
+# 4.1: What is the proportion Black and Indigenous people in prison for each year 
+# since 1990?
+prison_rate_bipoc_year <- prison_jail_rate_1990 %>%
   mutate(bipoc_prison_pop_rate = replace_na(bipoc_prison_pop_rate, 0)) %>%
   group_by(year) %>%
-  filter(bipoc_prison_pop_rate == max(bipoc_prison_pop_rate)) %>%
-  filter(bipoc_prison_pop_rate > 0) %>%
-  select(-c(total_jail_pop_rate, female_jail_pop_rate, male_jail_pop_rate)) %>%
-  select(-c(aapi_jail_pop_rate, black_jail_pop_rate, latinx_jail_pop_rate)) %>%
-  select(-c(native_jail_pop_rate, white_jail_pop_rate))
+  summarize(bipoc_prison_pop_rate = sum(bipoc_prison_pop_rate))
 
-# 8: Which county has the largest proportion Black and Indigenous people in 
-# jail for each year since 1990, what is the proportion?
-jail_rate_bipoc_county <- prison_jail_rate_1990 %>%
+# 4.2: What is the proportion Black and Indigenous people in jail for each year
+# since 1990, what is the proportion?
+jail_rate_bipoc_year <- prison_jail_rate_1990 %>%
   mutate(bipoc_jail_pop_rate = replace_na(bipoc_jail_pop_rate, 0)) %>%
   group_by(year) %>%
-  filter(bipoc_jail_pop_rate == max(bipoc_jail_pop_rate)) %>%
-  filter(bipoc_jail_pop_rate > 0) %>%
-  select(-c(total_prison_pop_rate, female_prison_pop_rate)) %>%
-  select(-c(male_prison_pop_rate, aapi_prison_pop_rate)) %>%
-  select(-c(black_prison_pop_rate, latinx_prison_pop_rate)) %>%
-  select(-c(native_prison_pop_rate, white_prison_pop_rate))
+  summarize(bipoc_jail_pop_rate = sum(bipoc_jail_pop_rate))
 
-# 9: Which county has the largest proportion white people in prison for each 
+# 4.3: Which county has the largest proportion white people in prison for each 
 # year since 1990, what is the proportion?
-prison_rate_white_county <- prison_jail_rate_1990 %>%
+prison_rate_white_year <- prison_jail_rate_1990 %>%
   mutate(white_prison_pop_rate = replace_na(white_prison_pop_rate, 0)) %>%
   group_by(year) %>%
-  filter(white_prison_pop_rate == max(white_prison_pop_rate)) %>%
-  filter(white_prison_pop_rate > 0) %>%
-  select(-c(total_jail_pop_rate, female_jail_pop_rate, male_jail_pop_rate)) %>%
-  select(-c(aapi_jail_pop_rate, black_jail_pop_rate, latinx_jail_pop_rate)) %>%
-  select(-c(native_jail_pop_rate, white_jail_pop_rate))
+  summarize(white_prison_pop_rate = sum(white_prison_pop_rate))
 
-# 10: Which county has the largest proportion white people in jail for each 
+# 4.4: Which county has the largest proportion white people in jail for each 
 # year since 1990, what is the proportion?
-jail_rate_white_county <- prison_jail_rate_1990 %>%
+jail_rate_white_year <- prison_jail_rate_1990 %>%
   mutate(white_jail_pop_rate = replace_na(white_jail_pop_rate, 0)) %>%
   group_by(year) %>%
-  filter(white_jail_pop_rate == max(white_jail_pop_rate)) %>%
-  filter(white_jail_pop_rate > 0) %>%
-  select(-c(total_prison_pop_rate, female_prison_pop_rate)) %>%
-  select(-c(male_prison_pop_rate, aapi_prison_pop_rate)) %>%
-  select(-c(black_prison_pop_rate, latinx_prison_pop_rate)) %>%
-  select(-c(native_prison_pop_rate, white_prison_pop_rate))
+  summarize(white_jail_pop_rate = sum(white_jail_pop_rate))
 
-# 11: Which county in each state has the largest rate of prisoners for 
-# each year since 1990, what is the rate?
-prison_rate_state_county <- prison_jail_rate_1990 %>%
-  mutate(total_prison_pop_rate = replace_na(total_prison_pop_rate, 0)) %>%
-  group_by(year, state) %>%
-  filter(total_prison_pop_rate == max(total_prison_pop_rate)) %>%
-  filter(total_prison_pop_rate != 0) %>% 
-  select(-c(total_jail_pop_rate, female_jail_pop_rate, male_jail_pop_rate)) %>%
-  select(-c(aapi_jail_pop_rate, black_jail_pop_rate, latinx_jail_pop_rate)) %>%
-  select(-c(native_jail_pop_rate, white_jail_pop_rate)) %>%
-  arrange(state, year)
+# 4.5: Join the tables together for time series data:
+inc_rate_white <- left_join(prison_rate_white_year, jail_rate_white_year)
+inc_rate_bipoc <- left_join(prison_rate_bipoc_year, jail_rate_bipoc_year)
+inc_rate_by_race <- left_join(inc_rate_white, inc_rate_bipoc)
 
-# 12: Which county in each state has the largest rate of people in jail 
-# for each year since 1990, what is the rate?
-jail_rate_state_county <- prison_jail_rate_1990 %>%
-  mutate(total_jail_pop_rate = replace_na(total_jail_pop_rate, 0)) %>%
-  group_by(year, state) %>%
-  filter(total_jail_pop_rate == max(total_jail_pop_rate)) %>%
-  filter(total_jail_pop_rate != 0) %>%
-  select(-c(total_prison_pop_rate, female_prison_pop_rate)) %>%
-  select(-c(male_prison_pop_rate, aapi_prison_pop_rate)) %>%
-  select(-c(black_prison_pop_rate, latinx_prison_pop_rate)) %>%
-  select(-c(native_prison_pop_rate, white_prison_pop_rate)) %>%
-  arrange(state, year)
-
-# 13: How many mens only, womens only, and coed prisons are there for each year?
+# 5: How many mens only, womens only, and coed prisons are there for each year?
 # Additionally how many men and women are in prison?
 prison_gender <- prison_jail_rate_1990 %>%
   mutate(male_prison_pop_rate = replace_na(male_prison_pop_rate, 0),
@@ -281,9 +257,9 @@ prison_gender <- prison_jail_rate_1990 %>%
       male_prison_pop_rate > 0 & female_prison_pop_rate > 0
       )
     ) %>%
-  mutate(people_in_prison_rate = women_in_prison_rate + men_in_prison_rate)
+  mutate(people_in_prison_rate = women_in_prison_rate + men_in_prison_rate) %>%
 
-# 14: How many mens only, womens only, and coed jails are there for each year?
+# 5.1: How many mens only, womens only, and coed jails are there for each year?
 # Additionally how many men and women are in jail?
 jail_gender <- prison_jail_rate_1990 %>%
   mutate(male_jail_pop_rate = replace_na(male_jail_pop_rate, 0),
@@ -304,6 +280,9 @@ jail_gender <- prison_jail_rate_1990 %>%
     )
   ) %>%
   mutate(people_in_jail_rate = women_in_jail_rate + men_in_jail_rate)
+
+# 5.2: Join the gender info tables together for time series data
+gender_info <- left_join(prison_gender, jail_gender)
 
 # Observations from data:
 # The largest prisons do not collect data on BIPOC prisoners but do on whites.
@@ -368,3 +347,28 @@ bipoc_avg_prison_change <- bipoc_avg_prison_2016 - bipoc_avg_prison_1990
 white_avg_prison_change <- white_avg_prison_2016 - white_avg_prison_1990
 bipoc_avg_jail_change <- bipoc_avg_jail_2016 - bipoc_avg_jail_1990
 white_avg_jail_change <- white_avg_jail_2016 - white_avg_jail_1990
+
+# # Unused code: Which county in each state has the largest rate of prisoners for 
+# # each year since 1990, what is the rate?
+# prison_rate_state_county <- prison_jail_rate_1990 %>%
+#   mutate(total_prison_pop_rate = replace_na(total_prison_pop_rate, 0)) %>%
+#   group_by(year, state) %>%
+#   filter(total_prison_pop_rate == max(total_prison_pop_rate)) %>%
+#   filter(total_prison_pop_rate != 0) %>% 
+#   select(-c(total_jail_pop_rate, female_jail_pop_rate, male_jail_pop_rate)) %>%
+#   select(-c(aapi_jail_pop_rate, black_jail_pop_rate, latinx_jail_pop_rate)) %>%
+#   select(-c(native_jail_pop_rate, white_jail_pop_rate)) %>%
+#   arrange(state, year)
+# 
+# # Unused code: Which county in each state has the largest rate of people in jail 
+# # for each year since 1990, what is the rate?
+# jail_rate_state_county <- prison_jail_rate_1990 %>%
+#   mutate(total_jail_pop_rate = replace_na(total_jail_pop_rate, 0)) %>%
+#   group_by(year, state) %>%
+#   filter(total_jail_pop_rate == max(total_jail_pop_rate)) %>%
+#   filter(total_jail_pop_rate != 0) %>%
+#   select(-c(total_prison_pop_rate, female_prison_pop_rate)) %>%
+#   select(-c(male_prison_pop_rate, aapi_prison_pop_rate)) %>%
+#   select(-c(black_prison_pop_rate, latinx_prison_pop_rate)) %>%
+#   select(-c(native_prison_pop_rate, white_prison_pop_rate)) %>%
+#   arrange(state, year)
