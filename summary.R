@@ -67,17 +67,6 @@ prison_jail_rate_1990 <- prison_jail_rate_1990 %>%
 # - Some missing demographic data, but could be cleaned
 # - Years span 1990-2018
 
-# Data cleaning:
-# 1: Control for NA values in total populations by averaging yr before and after
-
-# 2: Control for NA values in bipoc populations by averaging yr before and after
-
-# 3: Control for NA values in white populations by averaging yr before and after
-
-# 4: Control for NA values in male populations by averaging yr before and after
-
-# 5: Control for NA values in fem populations by averaging yr before and after
-
 # Questions:
 # 1: Which county in the USA has the highest prison population, 
 # per year since 1970, what is the population?
