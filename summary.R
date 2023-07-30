@@ -43,6 +43,14 @@ prison_jail_rate_1990 <- prison_jail_rate_1990 %>%
   mutate(bipoc_jail_pop_rate = black_jail_pop_rate + native_jail_pop_rate) %>%
   mutate(bipoc_prison_pop_rate = black_prison_pop_rate + native_prison_pop_rate)
 
+# Aggregate data for BIPOC communities in prison_pop
+prison_pop <- prison_pop %>%
+  mutate(bipoc_prison_pop = black_prison_pop + native_prison_pop)
+
+# Aggregate data for BIPOC communities in jail_pop
+jail_pop <- jail_pop %>%
+  mutate(bipoc_jail_pop = black_jail_pop + native_jail_pop)
+
 # Prelim Observations prison_pop:
 # - Missing demographic data
 # - Years span 1970-2018
@@ -67,10 +75,6 @@ prison_jail_rate_1990 <- prison_jail_rate_1990 %>%
 # - Some missing demographic data, but could be cleaned
 # - Years span 1990-2018
 
-# Questions for numerical values
-# 1: What is the proportion of White vs BIPOC people in the most populated
-# prisons?
-
 # Questions for visualization:
 # 1: Which counties in the USA has the highest prison population, 
 # since 1970, what is the population?
@@ -84,15 +88,35 @@ prison_pop_highest_county <- prison_pop %>%
   arrange(desc(total_prison_pop)) %>%
   top_n(10, total_prison_pop)
 
+# 1.1: What is the proportion of White vs BIPOC people in the most populated
+# prison counties?
+white_vs_bipoc_highest_prison <- prison_pop_highest_county %>%
+  reframe(year, 
+          location, 
+          total_prison_pop, 
+          white_prison_pop, 
+          bipoc_prison_pop)
+
 # 2: Which counties in the USA has the highest jail population, 
 # since 1970, what is the population?
 jail_pop_highest_county <- jail_pop %>%
-  mutate(location = paste(county_name, state), 
-         replace_na(total_jail_pop, 0)) %>%
+  mutate(
+    location = paste(county_name, state), 
+    total_jail_pop = replace_na(total_jail_pop, 0)
+  ) %>%
   filter(total_jail_pop != 0) %>%
   filter(total_jail_pop == max(total_jail_pop), .by = location) %>%
   arrange(desc(total_jail_pop)) %>%
   top_n(10, total_jail_pop)
+
+# 2.1: What is the proportion of White vs BIPOC people in the most populated
+# jail counties?
+white_vs_bipoc_highest_jail <- jail_pop_highest_county %>%
+  reframe(year, 
+          location, 
+          total_jail_pop, 
+          white_jail_pop, 
+          bipoc_jail_pop)
 
 # 3: Which county in the USA has the highest prison rate, per year since 1990,
 # what is the rate?
@@ -289,3 +313,6 @@ jail_gender <- prison_jail_rate_1990 %>%
 # There are more mens only prisons than womens only prisons by county.
 # There are more men jailed or imprisoned than women per year.
 # Rural counties are disproportionately housing prisoners over urban counties.
+
+# Questions for numerical values
+
