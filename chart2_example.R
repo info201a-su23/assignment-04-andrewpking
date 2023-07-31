@@ -20,8 +20,8 @@ ggplot(data = inc_growth_prison_top_10) +
     breaks = seq(0, 11000000, 1000000), limits = c(0, 11000000)
   ) +
   labs(title = "Is population growth related to prison rate growth?", 
-       subtitle = "Top 10 states with growing incarceration, from annual data", 
+       subtitle = "Top 10 states with growing incarceration since 1990", 
        x = "Net Population Growth", y = "Number of Prisons Growing") +
   guides(colour = guide_legend("State"),
-         size = guide_legend("Net Prison Rate Growth"),
+         size = guide_legend("Incarceration Rate Growth"),
          x = guide_axis(angle = 90))
