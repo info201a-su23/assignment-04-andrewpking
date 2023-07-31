@@ -324,36 +324,37 @@ inc_growth_state <- function(
 inc_rate_by_race <- function(prison_jail = prison_jail_rate_1990){
   # 4.1: What is the proportion Black and Indigenous people in prison for each year 
   # since 1990?
-  prison_rate_bipoc_year <- prison_jail %>%
+  rate <- 100000
+  prison_bipoc_year <- prison_jail %>%
     mutate(bipoc_prison_pop_rate = replace_na(bipoc_prison_pop_rate, 0)) %>%
     group_by(year) %>%
-    summarize(bipoc_prison_pop_rate = sum(bipoc_prison_pop_rate))
+    summarize(bipoc_prison_pop = sum(bipoc_prison_pop_rate * total_pop / rate))
   
   # 4.2: What is the proportion Black and Indigenous people in jail for each year
   # since 1990, what is the proportion?
-  jail_rate_bipoc_year <- prison_jail %>%
+  jail_bipoc_year <- prison_jail %>%
     mutate(bipoc_jail_pop_rate = replace_na(bipoc_jail_pop_rate, 0)) %>%
     group_by(year) %>%
-    summarize(bipoc_jail_pop_rate = sum(bipoc_jail_pop_rate))
+    summarize(bipoc_jail_pop = sum(bipoc_jail_pop_rate * total_pop / rate))
   
   # 4.3: Which county has the largest proportion white people in prison for each 
   # year since 1990, what is the proportion?
-  prison_rate_white_year <- prison_jail %>%
+  prison_white_year <- prison_jail %>%
     mutate(white_prison_pop_rate = replace_na(white_prison_pop_rate, 0)) %>%
     group_by(year) %>%
-    summarize(white_prison_pop_rate = sum(white_prison_pop_rate))
+    summarize(white_prison_pop = sum(white_prison_pop_rate * total_pop / rate))
   
   # 4.4: Which county has the largest proportion white people in jail for each 
   # year since 1990, what is the proportion?
-  jail_rate_white_year <- prison_jail %>%
+  jail_white_year <- prison_jail %>%
     mutate(white_jail_pop_rate = replace_na(white_jail_pop_rate, 0)) %>%
     group_by(year) %>%
-    summarize(white_jail_pop_rate = sum(white_jail_pop_rate))
+    summarize(white_jail_pop = sum(white_jail_pop_rate * total_pop / rate))
   
   # 4.5: Join the tables together for time series data:
-  inc_rate_white <- left_join(prison_rate_white_year, jail_rate_white_year)
-  inc_rate_bipoc <- left_join(prison_rate_bipoc_year, jail_rate_bipoc_year)
-  inc_rate <- left_join(inc_rate_white, inc_rate_bipoc)
+  inc_white <- left_join(prison_white_year, jail_white_year)
+  inc_bipoc <- left_join(prison_bipoc_year, jail_bipoc_year)
+  inc_rate <- left_join(inc_white, inc_bipoc)
   return(inc_rate)
 }
 
