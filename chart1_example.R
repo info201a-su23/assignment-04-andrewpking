@@ -11,4 +11,5 @@ prison_jail_rate_1990 <- inc_tables[[3]]
 inc_by_race <- inc_rate_by_race(prison_jail = prison_jail_rate_1990)
 
 ggplot(data = inc_by_race) +
-  geom_line(aes(x = year, y = population, colour = race))
+  geom_line(aes(x = year, y = population, 
+                colour = race, linetype = incarceration_type))
