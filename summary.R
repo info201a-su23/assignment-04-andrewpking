@@ -318,6 +318,7 @@ inc_growth_state <- function(
       prison_jail = prison_jail, start_year = start_year, end_year = end_year
     )
   )
+  return(inc_growth)
 }
 
 # 4: What is the proportion of black vs white people in prison and jail?
