@@ -234,9 +234,11 @@ prison_rate_growth_state <- function(
   prison_growth_rate <- prison_rate_growth_county(
     prison_jail = prison_jail, start_year = start_year, end_year = end_year) %>%
     group_by(state) %>%
-    summarize(county_prisons_growing = sum(
+    summarize(
+      total_pop_growth = sum(total_pop_growth),
+      county_prisons_growing = sum(
       prison_rate_growth > 0) - sum(prison_rate_growth < 0),
-              net_prison_growth = sum(prison_rate_growth)
+      net_prison_growth = sum(prison_rate_growth)
     )
   return(prison_growth_rate)
 }
@@ -272,8 +274,10 @@ jail_rate_growth_state <- function(
   jail_growth_rate <- jail_rate_growth_county(
     prison_jail = prison_jail, start_year = start_year, end_year = end_year) %>%
     group_by(state) %>%
-    summarize(county_jails_growing = sum(jail_rate_growth > 0) - sum(jail_rate_growth < 0),
-              net_jail_growth = sum(jail_rate_growth)
+    summarize(
+      total_pop_growth = sum(total_pop_growth),
+      county_jails_growing = sum(jail_rate_growth > 0) - sum(jail_rate_growth < 0),
+      net_jail_growth = sum(jail_rate_growth)
     )
   return(jail_growth_rate)
 }
