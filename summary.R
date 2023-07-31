@@ -308,7 +308,6 @@ inc_growth_county <- function(
   return(inc_rate_growth)
 }
 
-
 inc_growth_state <- function(
     prison_jail = prison_jail_rate_1990, 
     start_year = 1990, 
