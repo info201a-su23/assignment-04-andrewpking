@@ -13,15 +13,15 @@ inc_growth_prison_top_10 <- inc_growth_by_state %>%
   top_n(10, net_prison_growth)
 
 ggplot(data = inc_growth_prison_top_10) +
-  geom_point(aes(x = total_pop_growth, y = county_prisons_growing, 
-                 size = net_prison_growth, colour = state)) +
-  scale_y_continuous(breaks = seq(0, 200, 50), limits = c(0, 200)) +
+  geom_point(aes(x = total_pop_growth, y = net_prison_growth,
+                 size = county_prisons_growing, colour = state)) +
+  #scale_y_continuous(breaks = seq(0, 200, 50), limits = c(0, 200)) +
   scale_x_continuous(
     breaks = seq(0, 11000000, 1000000), limits = c(0, 11000000)
   ) +
   labs(title = "Is population growth related to prison rate growth?", 
        subtitle = "Top 10 states with growing incarceration since 1990", 
-       x = "Net Population Growth", y = "Number of Prisons Growing") +
+       x = "Net Population Growth", y = "Incarceration rate growth per 100,000") +
   guides(colour = guide_legend("State"),
-         size = guide_legend("Incarceration Rate Growth"),
+         size = guide_legend("Counties with prison growth"),
          x = guide_axis(angle = 90))
