@@ -352,9 +352,9 @@ inc_rate_by_race <- function(prison_jail = prison_jail_rate_1990){
     summarize(white_jail_pop = sum(white_jail_pop_rate * total_pop / rate))
   
   # 4.5: Join the tables together for time series data:
-  inc_white <- left_join(prison_white_year, jail_white_year)
-  inc_bipoc <- left_join(prison_bipoc_year, jail_bipoc_year)
-  inc_rate <- left_join(inc_white, inc_bipoc) %>%
+  inc_prison <- left_join(prison_bipoc_year, prison_white_year)
+  inc_jail <- left_join(jail_bipoc_year, jail_white_year)
+  inc_rate <- left_join(inc_prison, inc_jail) %>%
     gather(key = "race", value = "population", -year) %>%
     mutate(population = na_if(population, 0))
   return(inc_rate)
