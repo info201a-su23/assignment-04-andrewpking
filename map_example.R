@@ -1,4 +1,4 @@
-source("summary.R")
+source("analysis.R")
 
 # Load data and unpack it:
 inc_tables <- load_data()

@@ -1,16 +1,15 @@
-source("summary.R")
+source("analysis.R")
 library(ggplot2)
 
-plot_inc_by_race <- function(){
-  # Load data and unpack it:
-  inc_tables <- load_data()
-  prison_pop <- inc_tables[[1]]
-  prison_jail_rate_1990 <- inc_tables[[3]]
+# Load data and unpack it:
+inc_tables <- load_data()
+prison_pop <- inc_tables[[1]]
+prison_jail_rate_1990 <- inc_tables[[3]]
   
-  # Create time series data for incarceration by race
-  inc_by_race <- inc_rate_by_race(prison_jail = prison_jail_rate_1990)
+# Create time series data for incarceration by race
+inc_by_race <- inc_rate_by_race(prison_jail = prison_jail_rate_1990)
   
-  # Plot the data in a human readable form:
+# Plot the data in a human readable form:
 ggplot(data = inc_by_race) +
     geom_line(aes(x = year, y = population, 
                   colour = race, linetype = incarceration_type)) +
