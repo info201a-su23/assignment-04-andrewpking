@@ -11,7 +11,7 @@ plot_inc_by_race <- function(){
   inc_by_race <- inc_rate_by_race(prison_jail = prison_jail_rate_1990)
   
   # Plot the data in a human readable form:
-  inc_by_race_plot <- ggplot(data = inc_by_race) +
+ggplot(data = inc_by_race) +
     geom_line(aes(x = year, y = population, 
                   colour = race, linetype = incarceration_type)) +
     scale_x_continuous(breaks = seq(1990,2020,2), limits = c(1990, 2018)) +
@@ -24,5 +24,3 @@ plot_inc_by_race <- function(){
     guides(colour = guide_legend("Race"),
            linetype = guide_legend("Incarceration Type"),
            x = guide_axis(angle = 90))
-  return(inc_by_race_plot)
-}
