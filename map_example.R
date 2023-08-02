@@ -35,10 +35,9 @@ mp <- ggplot(states_growing, aes(map_id = state)) +
   geom_map(aes(fill = value), map = states_map)
 mp <- mp + expand_limits(x = states_map$long, y = states_map$lat)
 mp <- mp + scale_fill_gradient2(
-  low = '#3322E6', high = '#E0C736', mid = "#E3E1D5", 
-  limits = c(-20, 20),
+  low = '#3322E6', high = '#E0C736', mid = "#E3E1D5", limits = c(-20, 20),
   midpoint = 0) +
-  coord_fixed() +
+  coord_map() +
   theme_void() + 
   labs(title = "Where in the USA has mass incarceration grown since 1990?", 
        subtitle = "Average prison population growth per county by state", 

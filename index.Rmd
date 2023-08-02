@@ -46,7 +46,7 @@ Patterns that emerged are:
 
 ### Variable Comparison Chart
 
-Incarceration by population growth was visualized in this report to see if there is a correlation between population growth and incarceration growth from 1990 to 2016. Some technical limitations required that only the top 10 most incarcerated states be shown including:
+Incarceration by population growth was visualized as a scatterplot in this report to see if there is a correlation between population growth and incarceration growth from 1990 to 2016. Some technical limitations required that only the top 10 most incarcerated states be shown including:
 
 * Color coding by states makes states indiscernable for more than 10 states.
 * Some states have shrinking incarcerated populations, making it hard to fit a trend line.
