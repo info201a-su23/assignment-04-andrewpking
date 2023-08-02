@@ -15,8 +15,15 @@ states_map <- map_data("state")
 region <- tolower(state.name)
 
 state_growth <- state_growth %>%
-  # mutate(county_prisons_growing = na_if(county_prisons_growing, 0)) %>%
-  filter(state != "DC")
+  filter(state != "DC") %>%
+  mutate(
+    avg_prison_growth = ifelse(
+      avg_prison_growth > 0, log(avg_prison_growth), avg_prison_growth
+      ),
+    avg_prison_growth = ifelse(
+      avg_prison_growth < 0, -log(-avg_prison_growth), avg_prison_growth)
+    )
+
   
 #creating a 50x2 data frame here:
 states_growing <- data.frame(
@@ -29,11 +36,12 @@ mp <- ggplot(states_growing, aes(map_id = state)) +
 mp <- mp + expand_limits(x = states_map$long, y = states_map$lat)
 mp <- mp + scale_fill_gradient2(
   low = '#3322E6', high = '#E0C736', mid = "#E3E1D5", 
-  limits = c(-150000,150000), midpoint = 0) +
+  limits = c(-20, 20),
+  midpoint = 0) +
   coord_fixed() +
   theme_void() + 
   labs(title = "Where in the USA has mass incarceration grown since 1990?", 
        subtitle = "Average prison population growth per county by state", 
        ) +
-  guides(fill = guide_legend("Average Growth"))
+  guides(fill = guide_legend("Prison Growth (log)"))
 mp

@@ -7,19 +7,11 @@ output: html_document
 
 ### Introduction
 
-An introduction of the problem domain and a description of the variable(s) you are choosing to analyze (and why!)
+Mass incarceration in the United States is an alarming trend that is on the rise. The United States has the most incarcerated people per capita in the world. In this report, the average prison incarceration per county since 1990 is analyzed by, race, population, and geographic boundaries (States). The analysis is done in this manner to show how there are disparities in incarceration by geographic region and ethnicities.
 
 ### Summary Information
 
-Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
-
-These will likely be calculated using your DPLYR skills, answering questions such as: 
-
-- What is the average value of my variable across all the counties (in the current year)?
-- Where is my variable the highest / lowest?
-- How much has my variable change over the last N years?
-
-Feel free to calculate and report values that you find relevant. Again, remember that the purpose is to think about how these measure of incarceration vary by race.
+The average total change in Incarceration rates from 1990 to 2016 by type of incarceration and race was computed and shown in the following table. This was done to show which racial groups are going into which carceral system. There was not enough data on AAPI populations to include them. The BIPOC variable is an aggregation of black and indigenous people who were incarcerated. Data on Latinx populations was not included due to time constraints and specification requirements of this report. Lastly, the total rate of increase in prison incarceration from 1970 to 2016 was calculated to show the scope of the issue of rising incarceration in the United States, this data is shown below the table.
 
 ``````{r, echo = FALSE, message = FALSE, warning = FALSE, code = readLines("summary.R")}
 ```
@@ -35,34 +27,37 @@ What, if any, ethical questions or questions of power do you need to consider wh
 What are possible limitations or problems with this data?   (at least 200 words)
 
 
-### Trends Over Time Chart
+### Trends Over Time Chart: Incarceration by Race
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
+Incarceration by race since 1990 was visualized in this report to create more understanding about:
 
-The first chart that you will create and include will show the trend over time of your variable/topic. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
+* Increases in incarceration by year
+* Who is being incarcerated the most
+* Where people are being incarcerated
 
-- Show more than one, but fewer than ~10 trends
-  - This may mean showing the same measure for different locations or different racial groups. Think carefully about a meaningful comparison of locations (e.g., the top 10 counties in a state, top 10 states, etc.)
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear legend title
+Patterns that emerged are:
 
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
+* Black and Indigenous People are an overwhelming majority of the United States carceral population.
+* Jail rates and prison rates are steadily rising for white people.
+* Incarceration of the BIPOC population is cooling down since 2008, but still much higher than that of white people.
 
 ``````{r, echo = FALSE, message = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
 ```
 
 ### Variable Comparison Chart
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
+Incarceration by population growth was visualized in this report to see if there is a correlation between population growth and incarceration growth from 1990 to 2016. Some technical limitations required that only the top 10 most incarcerated states be shown including:
 
-The second chart that you will create and include will show how two different (continuous) variables are related to one another. Again, think carefully about what such a comparison means and what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
+* Color coding by states makes states indiscernable for more than 10 states.
+* Some states have shrinking incarcerated populations, making it hard to fit a trend line.
+* A legend for all 50 states and if their prisons are growing does not fit well.
 
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- If you choose to add a color encoding (not required), you need a legend for your different color and a clear legend title
+Emerging patterns:
+
+* Texas's incarceration rate is growing faster than any other state and so are its prisons
+* Texas aside, there is no trend between population growth and incarceration growth.
+* States with high incarceration rates have incarcerated more people than they have had people move to their state since 1990
+* The top 5 states with growing incarceration, excluding New York State are located in the south.
 
 ``````{r, echo = FALSE, message = FALSE, code = readLines("chart2_example.R")}
 ```

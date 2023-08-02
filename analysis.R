@@ -16,7 +16,8 @@ prison_jail_rate_1990 <- prison_jail_rate_1990 %>%
   mutate(bipoc_jail_pop_rate = black_jail_pop_rate + native_jail_pop_rate) %>%
   mutate(
     bipoc_prison_pop_rate = black_prison_pop_rate + native_prison_pop_rate
-    )
+    ) %>%
+  mutate(location = paste(county_name, state))
 
 # Aggregate data for BIPOC communities in prison_pop
 prison_pop <- prison_pop %>%
@@ -99,10 +100,7 @@ get_col_names <- function(
 # since 1970, what is the population?
 prison_highest <- function(prison = prison_pop){
   prison_pop_highest_county <- prison %>%
-    mutate(
-      location = paste(county_name, state), 
-      total_prison_pop = replace_na(total_prison_pop, 0)
-    ) %>%
+    mutate(total_prison_pop = replace_na(total_prison_pop, 0)) %>%
     filter(total_prison_pop != 0) %>%
     filter(total_prison_pop == max(total_prison_pop), .by = location) %>%
     arrange(desc(total_prison_pop)) %>%
@@ -124,10 +122,7 @@ prison_highest <- function(prison = prison_pop){
 # since 1970, what is the population?
 jail_highest <- function(jail = jail_pop){
   jail_pop_highest_county <- jail %>%
-    mutate(
-      location = paste(county_name, state), 
-      total_jail_pop = replace_na(total_jail_pop, 0)
-    ) %>%
+    mutate(total_jail_pop = replace_na(total_jail_pop, 0)) %>%
     filter(total_jail_pop != 0) %>%
     filter(total_jail_pop == max(total_jail_pop), .by = location) %>%
     arrange(desc(total_jail_pop)) %>%
@@ -232,8 +227,10 @@ prison_rate_growth_state <- function(
       total_pop_growth = sum(total_pop_growth),
       county_prisons_growing = sum(
       prison_rate_growth > 0) - sum(prison_rate_growth < 0),
-      avg_prison_growth = mean(prison_rate_growth * total_pop / rate)
-    )
+      avg_prison_growth = mean(prison_rate_growth * total_pop / rate),
+      prison_counties = n_distinct(location)
+    ) %>%
+    mutate(avg_prison_growth = avg_prison_growth * prison_counties)
   return(prison_growth_rate)
 }
 
@@ -273,8 +270,10 @@ jail_rate_growth_state <- function(
       total_pop = sum(total_pop),
       total_pop_growth = sum(total_pop_growth),
       county_jails_growing = sum(jail_rate_growth > 0) - sum(jail_rate_growth < 0),
-      avg_jail_growth = mean(jail_rate_growth * total_pop / rate)
-    )
+      avg_jail_growth = mean(jail_rate_growth * total_pop / rate),
+      jail_counties = n_distinct(location)
+    ) %>%
+    mutate(avg_jail_growth = avg_jail_growth * jail_counties)
   return(jail_growth_rate)
 }
 
