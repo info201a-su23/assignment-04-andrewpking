@@ -33,7 +33,7 @@ mp <- mp + scale_fill_gradient2(
   coord_fixed() +
   theme_void() + 
   labs(title = "Where in the USA has mass incarceration grown since 1990?", 
-       subtitle = "Average incarceration growth per county by state", 
+       subtitle = "Average prison population growth per county by state", 
        ) +
   guides(fill = guide_legend("Average Growth"))
 mp
