@@ -21,6 +21,9 @@ These will likely be calculated using your DPLYR skills, answering questions suc
 
 Feel free to calculate and report values that you find relevant. Again, remember that the purpose is to think about how these measure of incarceration vary by race.
 
+``````{r, echo = FALSE, message = FALSE, warning = FALSE, code = readLines("summary.R")}
+```
+
 ### The Dataset
 
 Who collected the data?  
