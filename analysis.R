@@ -1,40 +1,32 @@
 library(tidyverse)
 
 # Import the datasets
-load_data <- function(){
-  prison_pop <- read_csv(
-    "https://raw.githubusercontent.com/melaniewalsh/Neat-Datasets/main/us-prison-pop.csv"
-    )
-  jail_pop <- read_csv(
-    "https://raw.githubusercontent.com/melaniewalsh/Neat-Datasets/main/us-jail-pop.csv"
+prison_pop <- read_csv(
+  "https://raw.githubusercontent.com/melaniewalsh/Neat-Datasets/main/us-prison-pop.csv"
   )
-  prison_jail_rate_1990 <- read_csv(
+jail_pop <- read_csv(
+  "https://raw.githubusercontent.com/melaniewalsh/Neat-Datasets/main/us-jail-pop.csv"
+  )
+prison_jail_rate_1990 <- read_csv(
     "https://raw.githubusercontent.com/melaniewalsh/Neat-Datasets/main/us-prison-jail-rates-1990.csv"
   )
 
-  # Aggregate data for BIPOC communities in prison_jail_rate_1990
-  prison_jail_rate_1990 <- prison_jail_rate_1990 %>%
-    mutate(bipoc_jail_pop_rate = black_jail_pop_rate + native_jail_pop_rate) %>%
-    mutate(
-      bipoc_prison_pop_rate = black_prison_pop_rate + native_prison_pop_rate
-      )
-
-  # Aggregate data for BIPOC communities in prison_pop
-  prison_pop <- prison_pop %>%
-    mutate(bipoc_prison_pop = black_prison_pop + native_prison_pop)
-
-  # Aggregate data for BIPOC communities in jail_pop
-  jail_pop <- jail_pop %>%
-    mutate(bipoc_jail_pop = black_jail_pop + native_jail_pop)
-  
-  tables <- list(
-    prison_pop = prison_pop,
-    jail_pop = jail_pop,
-    prison_jail_rate_1990 = prison_jail_rate_1990
+# Aggregate data for BIPOC communities in prison_jail_rate_1990
+prison_jail_rate_1990 <- prison_jail_rate_1990 %>%
+  mutate(bipoc_jail_pop_rate = black_jail_pop_rate + native_jail_pop_rate) %>%
+  mutate(
+    bipoc_prison_pop_rate = black_prison_pop_rate + native_prison_pop_rate
     )
-  return(tables)
-}
 
+# Aggregate data for BIPOC communities in prison_pop
+prison_pop <- prison_pop %>%
+  mutate(bipoc_prison_pop = black_prison_pop + native_prison_pop)
+
+# Aggregate data for BIPOC communities in jail_pop
+jail_pop <- jail_pop %>%
+  mutate(bipoc_jail_pop = black_jail_pop + native_jail_pop)
+
+# Get total rows for each data-set
 get_dimensions <- function(
     prison = prison_pop, 
     jail = jail_pop,

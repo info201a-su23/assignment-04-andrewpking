@@ -1,14 +1,8 @@
 source("analysis.R")
 library(ggplot2)
 
-# Load data and unpack it:
-inc_tables <- load_data()
-prison_pop <- inc_tables[[1]]
-jail_pop <- inc_tables[[2]]
-prison_jail_rate_1990 <- inc_tables[[3]]
-
 # Process the data for graphing
-inc_growth_by_state <- inc_growth_state(prison_jail = prison_jail_rate_1990)
+inc_growth_by_state <- inc_growth_state()
 inc_growth_prison_top_10 <- inc_growth_by_state %>%
   arrange(desc(net_prison_growth)) %>%
   top_n(10, net_prison_growth)
