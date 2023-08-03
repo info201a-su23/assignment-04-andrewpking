@@ -1,7 +1,7 @@
 ---
 title: "A4: Incarceration"
 author: "Drew King"
-date: "08/04/2023"
+date: "08/02/2023"
 output: html_document
 ---
 
@@ -18,14 +18,38 @@ The average total change in Incarceration rates from 1990 to 2016 by type of inc
 
 ### The Dataset
 
-Who collected the data?  
-How was the data collected or generated?  
-Why was the data collected?  
-How many observations (rows) are in your data?  
-How many features (columns) are in the data?  
-What, if any, ethical questions or questions of power do you need to consider when working with this data?  
-What are possible limitations or problems with this data?   (at least 200 words)
+Who collected the data?
 
+* The Vera Institute of Justice
+
+How was the data collected or generated?
+
+* The data was aggregated from several sources including:
+  * U.S. Department of Justice Bureau of Justice Statistics (BJS)
+  * The U.S. Census Bureau
+  * The Centers for Disease Control and Prevention (CDC)
+  * The U.S. Department of Agriculture (USDA)
+* The BJS data was compiled to record trends about incarcerated populations, while the other three agencies were used to get population data by county for each year.
+Why was the data collected?  
+* This data was collected to obtain a more granular look at incarceration in the United States, since incarceration occurs in decisions made by counties, not by states.
+
+How many observations (rows) are in your data and how many features (columns) are in the data?  
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+source("analysis.R")
+dims <- get_dimensions()
+knitr::kable(dims)
+```
+What, if any, ethical questions or questions of power do you need to consider when working with this data?
+
+* Who is incarcerated the most and why?
+* Where are people being incarcerated the most?
+* Does race play a role in incarceration?
+
+What are possible limitations or problems with this data?
+
+* There is missing data on AAPI populations in the 1990 Prison Jail data-set.
+* The data-set that goes back to 1970 is missing a lot of values for population by both race and gender.
+* Some of the data would be easier to use if it were aggregated, such as the Prison Jail 1990 dataset along with the Prison Jail Rate 1990 dataset.
 
 ### Trends Over Time Chart: Incarceration by Race
 
@@ -35,16 +59,16 @@ Incarceration by race since 1990 was visualized in this report to create more un
 * Who is being incarcerated the most
 * Where people are being incarcerated
 
-Patterns that emerged are:
+``````{r, echo = FALSE, message = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
+```
+
+Key Findings:
 
 * Black and Indigenous People are an overwhelming majority of the United States carceral population.
 * Jail rates and prison rates are steadily rising for white people.
 * Incarceration of the BIPOC population is cooling down since 2008, but still much higher than that of white people.
 
-``````{r, echo = FALSE, message = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
-```
-
-### Variable Comparison Chart
+### Variable Comparison Chart: Population Growth vs Prison Growth
 
 Incarceration by population growth was visualized as a scatterplot in this report to see if there is a correlation between population growth and incarceration growth from 1990 to 2016. Some technical limitations required that only the top 10 most incarcerated states be shown including:
 
@@ -52,27 +76,31 @@ Incarceration by population growth was visualized as a scatterplot in this repor
 * Some states have shrinking incarcerated populations, making it hard to fit a trend line.
 * A legend for all 50 states and if their prisons are growing does not fit well.
 
-Emerging patterns:
+``````{r, echo = FALSE, message = FALSE, code = readLines("chart2_example.R")}
+```
+
+Key Findings:
 
 * Texas's incarceration rate is growing faster than any other state and so are its prisons
 * Texas aside, there is no trend between population growth and incarceration growth.
 * States with high incarceration rates have incarcerated more people than they have had people move to their state since 1990
 * The top 5 states with growing incarceration, excluding New York State are located in the south.
 
-``````{r, echo = FALSE, message = FALSE, code = readLines("chart2_example.R")}
+### Map: Incarceration Growth by State
+
+Incarceration rates have been growing in the USA at alarming rates, in particular among BIPOC. Since the United States is not evenly distributed racially, this report includes a chart of incarceration growth since 1990 by state. Some technical limitations required that a logarithmic scale of incarceration growth be shown including:
+
+* States where incarceration is growing are so much larger than the numbers in states where incarceration is shrinking
+* The colors for states with low incarceration growth were close to the colors of the states with no incarceration growth or missing data.
+* Numbers in the tens of millions do not fit well in the legend of the plot.
+
+``````{r, echo = FALSE, message = FALSE, warning = FALSE, code = readLines("map_example.R")}
 ```
-
-### Map
-
-Incarceration rates have been growing in the USA at alarming rates, in particular among BIPOC. Since the United States is not evenly distributed racially, this report includes a chart of incarceration growth since 1990 by state. Because the states where incarceration is growing are so much larger than the numbers in states where incarceration is shrinking, a logarithmic scale had to be applied to make this map human readable.
 
 Key findings:
-* States with shrinking incarceration rates are also the whitest states.
-* States with the fastest growing incarceration rates are states that are home to many BIPOC individuals.
+
+* States with the fastest growing incarceration rates are states that are home to many BIPOC individuals such as Texas, Georgia, and Flordia.
 * Texas has the most prison growth (consistent with the scatterplot).
-* Oregon has the most prison shrinkage.
-* States with very high prison growth are also states that run for profit prisons.
-
-``````{r, echo = FALSE, message = FALSE, code = readLines("map_example.R")}
-```
-
+* Virginia has the most declining prison population, followed by Illinois, and Oregon.
+* Several states with very high prison growth are also states that run for profit prisons, such as Texas and California.
+* Discrepancy in prison population seems to defy party lines, since there is no correlation between red and blue states and prison growth.
