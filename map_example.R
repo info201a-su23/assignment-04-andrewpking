@@ -24,11 +24,15 @@ state_growth <- state_growth %>%
       avg_prison_growth < 0, -log(-avg_prison_growth), avg_prison_growth)
     )
 
-  
-#creating a 50x2 data frame here:
-states_growing <- data.frame(
-  state = region, value = as.integer(state_growth$avg_prison_growth))
-  
+# Create a mapping between abbreviated state names and full state names
+state_mapping <- data.frame(state = state.abb, full_state = region, 
+                            stringsAsFactors = FALSE)
+
+# Merge the data frames to get full state names in the `states_growing` data frame
+states_growing <- merge(state_growth, state_mapping, 
+                        by.x = "state", by.y = "state", all.x = TRUE) %>%
+  mutate(value = as.integer(avg_prison_growth)) %>%
+  select(state = full_state, value)
 
 #Plot the choropleth! 
 mp <- ggplot(states_growing, aes(map_id = state)) +
