@@ -7,7 +7,7 @@ output: html_document
 
 ### Introduction
 
-Mass incarceration in the United States is an alarming trend that is on the rise. The United States has the most incarcerated people per capita in the world. In this report, the average prison incarceration per county since 1990 is analyzed by, race, population, and geographic boundaries (States). The analysis is done in this manner to show how there are disparities in incarceration by geographic region and ethnicities.
+Mass incarceration in the United States is an alarming trend that is on the rise. The United States has the most incarcerated people per capita in the world. In this report, the average prison incarceration per county since 1990 is analyzed by, race, population, and geographic boundaries (States). The analysis is done in this manner to show how there are disparities in incarceration by geographic region and ethnicity.
 
 ### Summary Information
 
@@ -70,11 +70,11 @@ Key Findings:
 
 ### Variable Comparison Chart: Population Growth vs Prison Growth
 
-Incarceration by population growth was visualized as a scatterplot in this report to see if there is a correlation between population growth and incarceration growth from 1990 to 2016. Some technical limitations required that only the top 10 most incarcerated states be shown including:
+Incarceration by population growth was visualized as a scatter plot in this report to see if there is a correlation between population growth and incarceration growth from 1990 to 2016. Some technical limitations required that only the top 10 most incarcerated states be shown including:
 
-* Color coding by states makes states indiscernable for more than 10 states.
-* Some states have shrinking incarcerated populations, making it hard to fit a trend line.
-* A legend for all 50 states and if their prisons are growing does not fit well.
+* Color encoding is indiscernible for more than 10 states in the legend.
+* A legend for all 50 states and if their prisons are growing is too large
+* Some states have shrinking incarcerated populations, making it harder to fit a trend line.
 
 ``````{r, echo = FALSE, message = FALSE, code = readLines("chart2_example.R")}
 ```
